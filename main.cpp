@@ -81,14 +81,16 @@ public:
                 curr=next;
                 next=next->next;
             }
-            if (next!=NULL && exp == next->exponent){
-                    next->coefficient+=coeff;
-                    if (next->coefficient==0){
-                        curr->next=next->next;
-                        delete next;
-                    }
-            }
-            else curr->next=new Term (exp, coeff, next);
+            if (next==NULL) curr->next= new Term (exp,coeff,next);  
+            else if (exp > next->exponent) curr->next= new Term (exp,coeff,next);  
+            else if (exp == next->exponent){  
+                next->coefficient+=coeff;  
+                if (next->coefficient==0){  
+                    Term *trash=next;  
+                    curr->next=next->next;  
+                    delete next;  
+                }  
+            } 
         }
     }
     double evaluate (int x){
